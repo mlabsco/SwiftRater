@@ -330,7 +330,7 @@ import StoreKit
         }
     }
     
-    private func rateAppWithAppStore() {
+    func rateAppWithAppStore() {
         #if arch(i386) || arch(x86_64)
             print("APPIRATER NOTE: iTunes App Store is not supported on the iOS simulator. Unable to open App Store page.");
         #else
