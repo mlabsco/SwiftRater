@@ -165,6 +165,14 @@ import StoreKit
     @objc public static func reset() {
         UsageDataManager.shared.reset()
     }
+    
+    @objc public static func ratingConditionsHaveBeenMet() -> Bool {
+        return UsageDataManager.shared.ratingConditionsHaveBeenMet
+    }
+    
+    @objc public static func setIsRateDone() {
+        UsageDataManager.shared.isRateDone = true
+    }
 
     private func perform() {
         if SwiftRater.appName != nil {
