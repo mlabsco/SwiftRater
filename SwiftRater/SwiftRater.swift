@@ -336,7 +336,7 @@ import StoreKit
   @objc @MainActor public static func rateApp(host: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, force: Bool = true)  {
     NSLog("[SwiftRater] Trying to show review request dialog.")
     let viewController = host ?? topViewController()
-    SwiftRater.shared.showRatingAlert(host: viewController, force: true)
+    SwiftRater.shared.showRatingAlert(host: viewController, force: force)
 
     UsageDataManager.shared.isRateDone = true
   }
