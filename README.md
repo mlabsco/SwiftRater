@@ -2,7 +2,8 @@
 
 [![Version](https://img.shields.io/cocoapods/v/SwiftRater.svg?style=flat)](http://cocoapods.org/pods/SwiftRater)
 [![License](https://img.shields.io/cocoapods/l/SwiftRater.svg?style=flat)](http://cocoapods.org/pods/SwiftRater)
-[![Platform](https://img.shields.io/cocoapods/p/SwiftRater.svg?style=flat)](http://cocoapods.org/pods/SwiftRater)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ftakecian%2FSwiftRater%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/takecian/SwiftRater)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Ftakecian%2FSwiftRater%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/takecian/SwiftRater)
 [![Build Status](https://app.bitrise.io/app/55becad13fb442f0/status.svg?token=xvASA1R9AsaeRnPDE7ZLUQ&branch=master)](https://app.bitrise.io/app/55becad13fb442f0)
 [![codebeat badge](https://codebeat.co/badges/a7a60a68-81df-4015-bf04-52a8fb621952)](https://codebeat.co/projects/github-com-takecian-swiftrater-master)
 
@@ -10,20 +11,21 @@ SwiftRater is a class that you can drop into any iPhone app that will help remin
 
 SwiftRater is written in pure Swift.
 
-## iOS 10.3 〜
+## iOS
 ![SwiftRater1](./Resource/later1.gif)
 
-For iOS 10.3 devices, SwiftRater uses SKStoreReviewController.
-
-## 〜 iOS 10.2
-![SwiftRater2](./Resource/later2.gif)
+## macOS
+![SwiftRater1](./Resource/macos-later1.gif)
 
 ## Requirements
 
-iOS 8.0 or later, written in Swift.
-Xcode 8.2 or later.
+iOS 13.0, macOS 10.15 or later, written in Swift.
 
 ## Installation
+
+### SPM
+
+Open your project setting and navigate to "Package dependencies" tab. Put "https://github.com/takecian/SwiftRater".
 
 ### Cocoapods
 
@@ -60,6 +62,35 @@ github "takecian/SwiftRater"
 
 ```
 
+If you are using SwiftUI, create AppDelegate class that inherits UIApplicationDelegate and
+configure SwiftRater there. (Thanks [@markgravity](https://github.com/markgravity) for the suggetion)
+
+```
+@main
+struct YourApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        SwiftRater.daysUntilPrompt = 7
+        SwiftRater.usesUntilPrompt = 10
+        SwiftRater.significantUsesUntilPrompt = 3
+        SwiftRater.daysBeforeReminding = 1
+        SwiftRater.showLaterButton = true
+        SwiftRater.debugMode = true
+        SwiftRater.appLaunched()
+        return true
+    }
+}
+```
+
 | Property      | Description           |
 | :------------- |:-------------|
 | daysUntilPrompt      | Shows review request if `daysUntilPrompt` days passed since first app launch. |
@@ -71,7 +102,8 @@ You can set properties you want to apply.
 | Property      | Description           |
 | :------------- |:-------------|
 | debugMode      | Shows review request every time. Default false, **need to set false when you submit app to AppStore**. |
-| showLaterButton | Show Later button in review request dialong, valid for iOS10.2 or before devices.|
+| conditionsMetMode | Possible values: `.any`, `.all` (default)<br /> Setting this to `.any` allows the prompt to be shown **when any one or more of your criteria have been met**.  |
+| showLaterButton | Show Later button in review request dialog, valid for iOS10.2 or before devices.|
 | daysBeforeReminding | Days until reminder popup if the user chooses `rate later`,  valid for iOS10.2 or before devices.      |
 
 2.Call `SwiftRater.check()` in `viewDidAppear` of ViewController where you want to show review request dialog. If conditions are met, SwiftRater will show review request popup.
@@ -123,6 +155,15 @@ If you wanted to show the request after 5 days only and remind 7 days after if l
 SwiftRater.daysUntilPrompt = 5
 SwiftRater.daysBeforeReminding = 7
 SwiftRater.appLaunched()
+```
+
+If you wanted to show the request after a user performs 10 significant actions before 5 days or 5 uses have passed:
+
+```
+SwiftRater.conditionsMetMode = .any
+SwiftRater.daysUntilPrompt = 5
+SwiftRater.usesUntilPrompt = 5
+SwiftRater.significantUsesUntilPrompt = 10
 ```
 
 ## Customize text

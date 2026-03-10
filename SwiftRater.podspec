@@ -8,8 +8,9 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftRater'
-  s.version          = '2.0.0'
+  s.version          = '2.2.2'
   s.summary          = 'A utility that reminds your iPhone app users to review the app written in pure Swift.'
+  s.platform = :ios, '13.0'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -26,11 +27,10 @@ SwiftRater is a class that you can drop into any iPhone app that will help remin
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'takecian' => 'takecian@gmail.com' }
   s.source           = { :git => 'https://github.com/takecian/SwiftRater.git', :tag => s.version.to_s }
-  s.social_media_url = 'https://twitter.com/takecian'
-  s.swift_versions    = ['5.0', '5.1']
-
-  s.ios.deployment_target = '8.0'
+  s.social_media_url = 'https://takecian.github.io'
+  s.swift_version    = '6.0'
 
   s.source_files = 'SwiftRater/**/*'
   s.exclude_files = 'SwiftRater/**/*.{plist}'
+  s.resource_bundles = {"SwiftRater" => ["SwiftRater/PrivacyInfo.xcprivacy"]}
 end
